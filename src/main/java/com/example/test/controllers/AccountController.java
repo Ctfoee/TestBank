@@ -86,19 +86,4 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @GetMapping("/transferContextExample")
-    public ResponseEntity<TransferContext> getTransferContextExample() {
-        TransferContext transferContext = new TransferContext();
-        transferContext.setPin(1234);
-        transferContext.setAmount(BigDecimal.TEN);
-        return new ResponseEntity<>(transferContext, HttpStatus.OK);
-    }
-
-    @GetMapping("/registrationContextExample")
-    public ResponseEntity<RegistrationContext> getRegistrationContextExample() {
-        RegistrationContext registrationContext = new RegistrationContext();
-        registrationContext.setBeneficiaryName("Example Beneficiary name");
-        registrationContext.setPin(1234);
-        return new ResponseEntity<>(registrationContext, HttpStatus.OK);
-    }
 }
