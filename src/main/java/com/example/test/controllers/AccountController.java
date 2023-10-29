@@ -2,7 +2,7 @@ package com.example.test.controllers;
 
 import com.example.test.exceptions.NotEnoughBalanceException;
 import com.example.test.model.bodies.RegistrationContext;
-import com.example.test.model.bodies.TransferContext;
+import com.example.test.model.bodies.OperationContext;
 import com.example.test.model.dto.AccountDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,17 +43,17 @@ public class AccountController {
 
     @PutMapping("/{id}/deposit")
     public ResponseEntity<HttpStatus> deposit(@PathVariable Long id,
-                                              @RequestBody TransferContext transferContext) {
-        accountService.deposit(accountService.findById(id), transferContext.getAmount());
+                                              @RequestBody OperationContext operationContext) {
+        accountService.deposit(accountService.findById(id), operationContext.getAmount());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/{id}/withdraw")
     public ResponseEntity<HttpStatus> withdraw(@PathVariable Long id,
-                                               @RequestBody TransferContext transferContext) {
+                                               @RequestBody OperationContext operationContext) {
         AccountDto account = accountService.findById(id);
-        int pin = transferContext.getPin();
-        BigDecimal outcome = transferContext.getAmount();
+        int pin = operationContext.getPin();
+        BigDecimal outcome = operationContext.getAmount();
 
         if (account.getPin() == pin) {
             try {
@@ -68,12 +68,12 @@ public class AccountController {
 
     @PutMapping("/{id}/transfer")
     public ResponseEntity<HttpStatus> transfer(@PathVariable Long id,
-                                               @RequestBody TransferContext transferContext) {
+                                               @RequestBody OperationContext operationContext) {
         AccountDto from = accountService.findById(id);
-        AccountDto to = accountService.findById(transferContext.getIdTo());
+        AccountDto to = accountService.findById(operationContext.getIdTo());
 
-        int pin = transferContext.getPin();
-        BigDecimal amount = transferContext.getAmount();
+        int pin = operationContext.getPin();
+        BigDecimal amount = operationContext.getAmount();
 
         if (from.getPin() == pin) {
             try {

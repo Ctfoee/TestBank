@@ -95,11 +95,11 @@ public class AccountServiceImpl implements AccountService {
 
         transactionService.save(
                 transactionConverter.transactionToTransactionDto(
-                        assembleTransaction(
-                                TransactionType.Deposit,
-                                null,
-                                realAccount,
-                                income)
+                            assembleTransaction(
+                                    TransactionType.Deposit,
+                                    null,
+                                    realAccount,
+                                    income)
                 ),
                 null,
                 realAccount

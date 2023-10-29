@@ -52,7 +52,10 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public void save(TransactionDto transactionDto, @Nullable Account from, @Nullable Account to) {
-        transactionRepository.save(assembleTransaction(transactionDto, from, to));
+        Transaction transaction = transactionConverter.transactionDtoToTransaction(transactionDto);
+        transaction.setFrom(from);
+        transaction.setTo(to);
+        transactionRepository.save(transaction);
     }
 
     @Override
@@ -64,12 +67,4 @@ public class TransactionServiceImpl implements TransactionService {
         );
     }
 
-    private Transaction assembleTransaction(TransactionDto transactionDto,
-                                            @Nullable Account from,
-                                            @Nullable Account to) {
-        Transaction transaction = transactionConverter.transactionDtoToTransaction(transactionDto);
-        transaction.setFrom(from);
-        transaction.setTo(to);
-        return transaction;
-    }
 }

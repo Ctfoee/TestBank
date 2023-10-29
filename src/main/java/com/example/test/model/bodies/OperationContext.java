@@ -11,9 +11,11 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransferContext {
+public class OperationContext {
 
     private Integer pin;
+
+    // idFrom not required: included in @PathVariable for each request it needed
 
     private Long idTo;
 
