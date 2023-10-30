@@ -51,6 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public void save(TransactionDto transactionDto, @Nullable Account from, @Nullable Account to) {
         Transaction transaction = transactionConverter.transactionDtoToTransaction(transactionDto);
         transaction.setFrom(from);
@@ -59,6 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Transactional
     public TransactionDto findById(Long id) {
         return transactionConverter.transactionToTransactionDto(
                 transactionRepository
