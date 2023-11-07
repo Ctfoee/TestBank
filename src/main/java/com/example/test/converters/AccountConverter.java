@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public abstract class AccountConverter {
 
-    public abstract AccountDto accountToAccountDto (Account account);
+    public abstract AccountDto accountToAccountDto(Account account);
 
-    public abstract Account accountDtoToAccount (AccountDto accountDto);
+    public abstract Account accountDtoToAccount(AccountDto accountDto);
 
 }

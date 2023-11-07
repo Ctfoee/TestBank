@@ -6,6 +6,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public abstract class TransactionConverter {
-    public abstract TransactionDto transactionToTransactionDto (Transaction transaction);
-    public abstract Transaction transactionDtoToTransaction (TransactionDto transactionDto);
+    public abstract TransactionDto transactionToTransactionDto(Transaction transaction);
+    public abstract Transaction transactionDtoToTransaction(TransactionDto transactionDto);
 }
