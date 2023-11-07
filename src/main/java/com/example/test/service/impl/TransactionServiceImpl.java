@@ -5,9 +5,7 @@ import com.example.test.converters.TransactionConverter;
 import com.example.test.model.dto.TransactionDto;
 import com.example.test.model.entity.Account;
 import com.example.test.model.entity.Transaction;
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
@@ -25,26 +23,19 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionConverter transactionConverter;
 
-    @PersistenceContext
-    private final EntityManager entityManager;
-
     @Autowired
     public TransactionServiceImpl(TransactionRepository transactionRepository,
-                                  TransactionConverter transactionConverter,
-                                  EntityManager entityManager) {
+                                  TransactionConverter transactionConverter) {
         this.transactionRepository = transactionRepository;
         this.transactionConverter = transactionConverter;
-        this.entityManager = entityManager;
     }
 
 
     @Override
     @Transactional
     public List<TransactionDto> findAllAccountTransactions(Long id) {
-        return entityManager
-                .createQuery("SELECT t FROM Transaction t WHERE t.from.id=:id OR t.to.id=:id", Transaction.class)
-                .setParameter("id", id)
-                .getResultList()
+        return transactionRepository
+                .findTransactionsByFromIdOrToId(id, id)
                 .stream()
                 .map(transactionConverter::transactionToTransactionDto)
                 .collect(Collectors.toList());
