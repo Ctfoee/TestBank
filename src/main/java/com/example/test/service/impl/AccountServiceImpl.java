@@ -3,6 +3,7 @@ package com.example.test.service.impl;
 import com.example.test.converters.AccountConverter;
 import com.example.test.converters.TransactionConverter;
 import com.example.test.exceptions.NotEnoughBalanceException;
+import com.example.test.exceptions.WrongPinException;
 import com.example.test.model.dto.AccountDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -42,22 +43,6 @@ public class AccountServiceImpl implements AccountService {
         this.transactionConverter = transactionConverter;
     }
 
-//    @PostConstruct
-//    private void initDb() {
-//        Account account1 = new Account();
-//        account1.setBeneficiaryName("Beneficiary1");
-//        account1.setPin(1111);
-//        account1.setBalance(BigDecimal.valueOf(1000));
-//
-//        Account account2 = new Account();
-//        account2.setBeneficiaryName("Beneficiary2");
-//        account2.setPin(2222);
-//        account2.setBalance(BigDecimal.ZERO);
-//
-//        accountRepository.save(account1);
-//        accountRepository.save(account2);
-//    }
-
     @Override
     @Transactional
     public AccountDto findById(Long id) {
@@ -79,11 +64,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void createAccount(String beneficiary, Integer pin) {
-        Account account = new Account();
-        account.setBeneficiaryName(beneficiary);
-        account.setPin(pin);
-        accountRepository.save(account);
+    public void createAccount(AccountDto accountDto) {
+        accountRepository.save(accountConverter.accountDtoToAccount(accountDto));
     }
 
     @Override
@@ -111,6 +93,11 @@ public class AccountServiceImpl implements AccountService {
     public void withdraw(AccountDto accountDto, BigDecimal outcome) {
         Account realAccount = accountRepository.findById(accountDto.getId())
                 .orElseThrow(EntityNotFoundException::new);
+
+        if (realAccount.getPin() != accountDto.getPin().intValue()) {
+            throw new WrongPinException("Wrong PIN");
+        }
+
         if (realAccount.getBalance().compareTo(outcome) > -1) {
             realAccount.setBalance(realAccount.getBalance().subtract(outcome));
         } else {
@@ -136,6 +123,11 @@ public class AccountServiceImpl implements AccountService {
         Account realFrom = accountRepository.findById(from.getId())
                 .orElseThrow(EntityNotFoundException::new);
         Account realTo;
+
+        if (realFrom.getPin() != from.getPin().intValue()) {
+            throw new WrongPinException("Wrong PIN");
+        }
+
         if (realFrom.getBalance().compareTo(amount) > -1) {
             realTo = accountRepository.findById(to.getId())
                     .orElseThrow(EntityNotFoundException::new);
@@ -145,12 +137,6 @@ public class AccountServiceImpl implements AccountService {
         } else {
             throw new NotEnoughBalanceException("Not enough cash to transfer on account with id=" + from.getId());
         }
-
-        Transaction transaction = new Transaction();
-        transaction.setTransactionType(TransactionType.Transfer);
-        transaction.setFrom(realFrom);
-        transaction.setTo(realTo);
-        transaction.setAmount(amount);
 
         transactionService.save(
                 transactionConverter.transactionToTransactionDto(

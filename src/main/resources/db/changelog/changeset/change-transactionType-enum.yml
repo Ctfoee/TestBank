@@ -1,0 +1,9 @@
+databaseChangeLog:
+  - changeSet:
+      author: Ctfoee
+      id: change-enum
+      changes:
+        - modifyDataType:
+            tableName: transaction
+            columnName: transaction_type
+            newDataType: EnumType.STRING

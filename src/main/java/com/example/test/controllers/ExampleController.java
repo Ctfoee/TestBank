@@ -1,6 +1,6 @@
 package com.example.test.controllers;
 
-import com.example.test.model.bodies.RegistrationContext;
+import com.example.test.model.bodies.AccountCredentials;
 import com.example.test.model.bodies.OperationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,12 @@ import java.math.BigDecimal;
 @RequestMapping("/api/example")
 public class ExampleController {
 
-    @GetMapping("/registrationContext")
-    public ResponseEntity<RegistrationContext> getRegistrationContextExample() {
-        RegistrationContext registrationContext = new RegistrationContext();
-        registrationContext.setBeneficiaryName("Example Beneficiary name");
-        registrationContext.setPin(1234);
-        return new ResponseEntity<>(registrationContext, HttpStatus.OK);
+    @GetMapping("/userCredentials")
+    public ResponseEntity<AccountCredentials> getRegistrationContextExample() {
+        AccountCredentials accountCredentials = new AccountCredentials();
+        accountCredentials.setBeneficiaryName("Example Beneficiary name");
+        accountCredentials.setPin(1234);
+        return new ResponseEntity<>(accountCredentials, HttpStatus.OK);
     }
 
 

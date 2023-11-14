@@ -11,7 +11,7 @@ public interface AccountService {
 
     List<AccountDto> findAllAccounts();
 
-    void createAccount(String beneficiary, Integer pin);
+    void createAccount(AccountDto accountDto);
 
     void deposit(AccountDto account, BigDecimal income);
 

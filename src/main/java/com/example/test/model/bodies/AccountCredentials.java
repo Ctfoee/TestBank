@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegistrationContext {
+public class AccountCredentials {
 
     private String beneficiaryName;
 
