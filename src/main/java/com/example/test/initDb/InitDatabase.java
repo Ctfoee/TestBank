@@ -18,6 +18,24 @@ public class InitDatabase {
 
     @PostConstruct
     private void initDb() {
+//        initAccounts();
+//        initTransactions();
+    }
+
+    private void initAccounts() {
+        AccountDto account1 = new AccountDto();
+        account1.setBeneficiaryName("Beneficiary1");
+        account1.setPin(1111);
+
+        AccountDto account2 = new AccountDto();
+        account2.setBeneficiaryName("Beneficiary2");
+        account2.setPin(2222);
+
+        accountService.createAccount(account1);
+        accountService.createAccount(account2);
+    }
+
+    private void initTransactions() {
         AccountDto account1 = new AccountDto();
         account1.setId(1L);
         account1.setPin(1111);

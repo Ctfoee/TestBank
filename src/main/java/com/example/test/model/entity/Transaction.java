@@ -24,7 +24,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "transactions", schema = "Transactions")
+@Table(name = "transactions", schema = "transactions")
 public class Transaction {
 
     @Id
@@ -43,7 +43,7 @@ public class Transaction {
     private BigDecimal amount;
 
     @Column
-    @Enumerated(value = EnumType.STRING)
+    @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
 
     @PrePersist
