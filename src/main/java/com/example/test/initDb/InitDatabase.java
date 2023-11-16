@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
+
 @Component
 public class InitDatabase {
 
@@ -18,8 +19,10 @@ public class InitDatabase {
 
     @PostConstruct
     private void initDb() {
-//        initAccounts();
-//        initTransactions();
+        if (accountService.findAllAccounts().size() < 2) {
+            initAccounts();
+            initTransactions();
+        }
     }
 
     private void initAccounts() {
